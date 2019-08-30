@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,设计模式,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="单例模式核心作用保证一个类只有一个实例。 常见应用场景： Windows的Task Manager（任务管理器）就是很典型的单例模式  windows的Recycle Bin（回收站）也是典型的单例应用。在整个系统运行过程中，回收站一直维护着仅有的一个实例。  项目中，读取配置文件的类，一般也只有一个对象。没有必要每次使用配置文件数据，每次new一个对象去读取。  网站的计数器，一般也是采用单例模">
+<meta name="keywords" content="java,设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java23中设计模式之创建型模式">
+<meta property="og:url" content="http://yoursite.com/2019/08/30/java23种设计模式-创建型模式/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="单例模式核心作用保证一个类只有一个实例。 常见应用场景： Windows的Task Manager（任务管理器）就是很典型的单例模式  windows的Recycle Bin（回收站）也是典型的单例应用。在整个系统运行过程中，回收站一直维护着仅有的一个实例。  项目中，读取配置文件的类，一般也只有一个对象。没有必要每次使用配置文件数据，每次new一个对象去读取。  网站的计数器，一般也是采用单例模">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-30T01:50:51.576Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java23中设计模式之创建型模式">
+<meta name="twitter:description" content="单例模式核心作用保证一个类只有一个实例。 常见应用场景： Windows的Task Manager（任务管理器）就是很典型的单例模式  windows的Recycle Bin（回收站）也是典型的单例应用。在整个系统运行过程中，回收站一直维护着仅有的一个实例。  项目中，读取配置文件的类，一般也只有一个对象。没有必要每次使用配置文件数据，每次new一个对象去读取。  网站的计数器，一般也是采用单例模">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/30/java23种设计模式-创建型模式/">
+
+
+
+
+
+  <title>java23中设计模式之创建型模式 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/sjcnhlm"><img style="position:absolute ;top:0;right:0;border:0" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_left_darkblue_121621.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/30/java23种设计模式-创建型模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="诗酒趁年华">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/rose.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">java23中设计模式之创建型模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-30T09:49:46+08:00">
+                2019-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.5k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  15 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><h4 id="核心作用"><a href="#核心作用" class="headerlink" title="核心作用"></a>核心作用</h4><p>保证一个类只有一个实例。</p>
+<h4 id="常见应用场景："><a href="#常见应用场景：" class="headerlink" title="常见应用场景："></a>常见应用场景：</h4><ul>
+<li>Windows的Task Manager（任务管理器）就是很典型的单例模式 </li>
+<li>windows的Recycle Bin（回收站）也是典型的单例应用。在整个系统运行过程中，回收站一直维护着仅有的一个实例。 </li>
+<li>项目中，读取配置文件的类，一般也只有一个对象。没有必要每次使用配置文件数据，每次new一个对象去读取。 </li>
+<li>网站的计数器，一般也是采用单例模式实现，否则难以同步。 </li>
+<li>应用程序的日志应用，一般都何用单例模式实现，这一般是由于共享的日志文件一直处于打开状态，因为只能有一个实例去操作 ，否则内容不好追加。</li>
+<li>数据库连接池的设计一般也是采用单例模式，因为数据库连接是一种数据库资源。 – 操作系统的文件系统，也是大的单例模式实现的具体例子，一个操作系统只能有一个文件系统。 </li>
+<li>Application 也是单例的典型应用（Servlet编程中会涉及到） </li>
+<li>在Spring中，每个Bean默认就是单例的，这样做的优点是Spring容器可以管理 </li>
+<li>在servlet编程中，每个Servlet也是单例 </li>
+<li>在spring MVC框架/struts1框架中，控制器对象也是单例<h4 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h4>减少了系统性能开销。</li>
+</ul>
+<p>单例模式可以在系统设置全局的访问点，优化环共享资源访问，例如可以设计 一个单例类，负责所有数据表的映射处理</p>
+<h3 id="常见的单例模式实现方式"><a href="#常见的单例模式实现方式" class="headerlink" title="常见的单例模式实现方式"></a>常见的单例模式实现方式</h3><h4 id="1-饿汉式（线程安全，调用效率高。-但是，不能延时加载）："><a href="#1-饿汉式（线程安全，调用效率高。-但是，不能延时加载）：" class="headerlink" title="1.饿汉式（线程安全，调用效率高。 但是，不能延时加载）："></a>1.饿汉式（线程安全，调用效率高。 但是，不能延时加载）：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo01 &#123;</span><br><span class="line">    private  static SingletonDemo01 singletonDemo01 = new SingletonDemo01();//立即加载</span><br><span class="line">    //私有化构造器</span><br><span class="line">    private SingletonDemo01()</span><br><span class="line">    &#123;&#125;</span><br><span class="line"></span><br><span class="line">    public static SingletonDemo01 getInstance()</span><br><span class="line">    &#123;</span><br><span class="line">        return singletonDemo01;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>问题：如果只是加载本类，而不是要调用getInstance()，甚至永远没有调用，则会造成资源浪费！</p>
+<h4 id="2-懒汉式（线程安全，调用效率不高。-但是，可以延时加载）"><a href="#2-懒汉式（线程安全，调用效率不高。-但是，可以延时加载）" class="headerlink" title="2. 懒汉式（线程安全，调用效率不高。 但是，可以延时加载）"></a>2. 懒汉式（线程安全，调用效率不高。 但是，可以延时加载）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo02 &#123;</span><br><span class="line">    private  static SingletonDemo02 singletonDemo02;//延迟加载</span><br><span class="line">    //私有化构造器</span><br><span class="line">    private SingletonDemo02()</span><br><span class="line">    &#123;&#125;</span><br><span class="line"></span><br><span class="line">    public static synchronized  SingletonDemo02 getInstance()</span><br><span class="line">    &#123;</span><br><span class="line">        if(singletonDemo02 ==null)</span><br><span class="line">        &#123;</span><br><span class="line">            singletonDemo02 = new SingletonDemo02();</span><br><span class="line">        &#125;</span><br><span class="line">        return singletonDemo02;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>问题： 资源利用率高了。但是，每次调用getInstance()方法都要同步，并发效率较低。  </p>
+<h4 id="3-双重检测锁式（由于JVM底层内部模型原因，偶尔会出问题。不建议使用）"><a href="#3-双重检测锁式（由于JVM底层内部模型原因，偶尔会出问题。不建议使用）" class="headerlink" title="3. 双重检测锁式（由于JVM底层内部模型原因，偶尔会出问题。不建议使用）"></a>3. 双重检测锁式（由于JVM底层内部模型原因，偶尔会出问题。不建议使用）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo03 &#123;</span><br><span class="line"></span><br><span class="line">    private static SingletonDemo03 instance = null;</span><br><span class="line">    private SingletonDemo03()</span><br><span class="line">    &#123;&#125;</span><br><span class="line"></span><br><span class="line">    public static SingletonDemo03 getInstance()</span><br><span class="line">    &#123;</span><br><span class="line">        if (instance == null)</span><br><span class="line">        &#123;</span><br><span class="line">            SingletonDemo03 sc;</span><br><span class="line">            synchronized (SingletonDemo03.class)</span><br><span class="line">            &#123;</span><br><span class="line">                sc = instance;</span><br><span class="line">                if(sc == null)</span><br><span class="line">                &#123;</span><br><span class="line">                    sc = new SingletonDemo03();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            instance = sc;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-静态内部类式-线程安全，调用效率高。-但是，可以延时加载"><a href="#4-静态内部类式-线程安全，调用效率高。-但是，可以延时加载" class="headerlink" title="4. 静态内部类式(线程安全，调用效率高。 但是，可以延时加载)"></a>4. 静态内部类式(线程安全，调用效率高。 但是，可以延时加载)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo04 &#123;</span><br><span class="line"></span><br><span class="line">    private static class SingletonClassInstance</span><br><span class="line">    &#123;</span><br><span class="line">        private static final SingletonDemo04 instance = new SingletonDemo04();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static SingletonDemo04 getInstance()</span><br><span class="line">    &#123;</span><br><span class="line">        return SingletonClassInstance.instance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private SingletonDemo04()</span><br><span class="line">    &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-枚举单例-线程安全，调用效率高，不能延时加载-并且可以天然的防止反射和反序列-化漏洞！"><a href="#5-枚举单例-线程安全，调用效率高，不能延时加载-并且可以天然的防止反射和反序列-化漏洞！" class="headerlink" title="5.枚举单例(线程安全，调用效率高，不能延时加载.并且可以天然的防止反射和反序列 化漏洞！)"></a>5.枚举单例(线程安全，调用效率高，不能延时加载.并且可以天然的防止反射和反序列 化漏洞！)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public enum  SingletonDemo05 &#123;</span><br><span class="line"></span><br><span class="line">    INSTANCE;</span><br><span class="line"></span><br><span class="line">    //功能处理。</span><br><span class="line">    public void singletonOperation()&#123;</span><br><span class="line"></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="如何选用"><a href="#如何选用" class="headerlink" title="如何选用?"></a>如何选用?</h4><ul>
+<li>单例对象: 占用 资源 少，不需要 延时加载： 枚举式 好于 饿汉式 .</li>
+</ul>
+<ul>
+<li>单例对象: 占用 资源 大，需要 延时加载： 静态内部类式 好于 懒汉式.</li>
+</ul>
+<hr>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><h4 id="作用："><a href="#作用：" class="headerlink" title="作用："></a>作用：</h4><p>实现了创建者和调用者的分离</p>
+<h4 id="核心本质："><a href="#核心本质：" class="headerlink" title="核心本质："></a>核心本质：</h4><ul>
+<li><p>实例化对象，用工厂方法代替new操作。 </p>
+</li>
+<li><p>将选择实现类、创建对象统一管理和控制。从而将调用者跟我们的实现类解耦。</p>
+<h4 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h4></li>
+<li><p>JDK中Calendar的getInstance方法</p>
+</li>
+<li><p>JDBC中Connection对象的获取 </p>
+</li>
+<li><p>Hibernate中SessionFactory创建Session </p>
+</li>
+<li><p>spring中IOC容器创建管理bean对象  </p>
+</li>
+<li><p>XML解析时的DocumentBuilderFactory创建解析器对象 </p>
+</li>
+<li><p>反射中Class对象的newInstance()</p>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3></li>
+<li><p>简单工厂模式</p>
+<p>  用来生产同一等级结构中的任意产品。（对于增加新的产品，需要修改已有代码）。</p>
+<p>  • 虽然某种程度不符合设计原则，但实际使用最多。</p>
+</li>
+<li><p>工厂方法模式</p>
+<p>  用来生产同一等级结构中的固定产品。（支持增加任意产品）</p>
+</li>
+<li><p>抽象工厂模式</p>
+<p>  用来生产不同产品族的全部产品。（对于增加新的产品，无能为力；支持 增加产品族）</p>
+</li>
+</ul>
+<h4 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h4><p>简单工厂模式也叫静态工厂模式，就是工厂类一般是使用静态方法， 通过接收的参数的不同来返回不同的对象实例。</p>
+<p>下面是简单的代码演示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">car抽象类：</span><br><span class="line">public interface Car &#123;</span><br><span class="line">    void run();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">奥迪类：</span><br><span class="line">public class Audi implements Car&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        System.out.println(&quot;奥迪车在跑&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">奔驰类：</span><br><span class="line">public class Bench implements Car &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        System.out.println(&quot;奔驰车在跑&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">简单工厂：</span><br><span class="line">public class Factory &#123;</span><br><span class="line"></span><br><span class="line">    public static Car createCar(String type)</span><br><span class="line">    &#123;</span><br><span class="line">        if (type.equals(&quot;奥迪&quot;))</span><br><span class="line">        &#123;</span><br><span class="line">            return new Audi();</span><br><span class="line">        &#125;</span><br><span class="line">        else if(type.equals(&quot;奔驰&quot;))</span><br><span class="line">        &#123;</span><br><span class="line">            return new Bench();</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">测试类：</span><br><span class="line">public class Client &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Car audi = Factory.createCar(&quot;奥迪&quot;);</span><br><span class="line">        Car benchi = Factory.createCar(&quot;奔驰&quot;);</span><br><span class="line"></span><br><span class="line">        audi.run();</span><br><span class="line">        benchi.run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h4><ul>
+<li>为了避免简单工厂模式的缺点，不完全满足OCP。 </li>
+<li>工厂方法模式和简单工厂模式最大的不同在于，简单工厂模式只有一个（对于一个项目 或者一个独立模块而言）工厂类，而工厂方法模式有一组实现了相同接口的工厂类。</li>
+</ul>
+<p>下面是简单的代码演示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">Fectory接口：</span><br><span class="line">public interface Factory &#123;</span><br><span class="line">     Car createCar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BenchFactory类：</span><br><span class="line">public class BenchFactory implements Factory &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Car createCar() &#123;</span><br><span class="line">        return new Bench();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">AudiFactory类：</span><br><span class="line">public class AudiFactory implements Factory &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Car createCar() &#123;</span><br><span class="line">        return new Audi();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">测试类：</span><br><span class="line">public class Client &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Car car1 = new AudiFactory().createCar();</span><br><span class="line">        car1.run();</span><br><span class="line"></span><br><span class="line">        Car car2 = new BenchFactory().createCar();</span><br><span class="line">        car2.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>根据设计理论建议：工厂方法模式。但实际上，我们一般都用简单工厂模式</strong></p>
+<h4 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h4><ul>
+<li>用来生产不同产品族的全部产品。（对于增加新的产品，无能为力； 支持增加产品族） </li>
+<li>抽象工厂模式是工厂方法模式的升级版本，在有多个业务品种、业务 分类时，通过抽象工厂模式产生需要的对象是一种非常好的解决方式。</li>
+</ul>
+<p>代码实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">Engine接口和实现类：</span><br><span class="line">public interface Enigne &#123;</span><br><span class="line">    void start();</span><br><span class="line">    void revol();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class BestEnigne implements Enigne&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void start() &#123;</span><br><span class="line">        System.out.println(&quot;启动贼快&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void revol() &#123;</span><br><span class="line">        System.out.println(&quot;转速慢&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class LowEnigne implements Enigne&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void start() &#123;</span><br><span class="line">        System.out.println(&quot;启动贼慢&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void revol() &#123;</span><br><span class="line">        System.out.println(&quot;转速慢&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Seat接口和实现类：</span><br><span class="line">public interface Seat &#123;</span><br><span class="line">    void service();</span><br><span class="line">&#125;</span><br><span class="line">class BestSeat implements Seat&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void service() &#123;</span><br><span class="line">        System.out.println(&quot;按摩服务&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class LowSeat implements Seat&#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void service() &#123;</span><br><span class="line">        System.out.println(&quot;无按摩服务&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">CarFactory接口：</span><br><span class="line">public interface CarFactory &#123;</span><br><span class="line">    Enigne createEnigne();</span><br><span class="line">    Seat createSeat();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">BestCarFactory类：</span><br><span class="line">public class BestCarFactory implements CarFactory &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Enigne createEnigne() &#123;</span><br><span class="line">        return new BestEnigne();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Seat createSeat() &#123;</span><br><span class="line">        return new BestSeat();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LowFactory类：</span><br><span class="line">public class LowFactory implements CarFactory &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public Enigne createEnigne() &#123;</span><br><span class="line">        return new LowEnigne();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Seat createSeat() &#123;</span><br><span class="line">        return new LowSeat();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">测试类：</span><br><span class="line">public class Client &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        CarFactory carFactory = new BestCarFactory();</span><br><span class="line">        Enigne enigne =carFactory.createEnigne();</span><br><span class="line">        enigne.start();</span><br><span class="line">        enigne.revol();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h2><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>我们要建造一个复杂的产品。比如：神州飞船,Iphone。这个复杂的产品的创建。有这样 一个问题需要处理：</p>
+<ul>
+<li>装配这些子组件是不是有个步骤问题?</li>
+<li>实际开发中，我们所需要的对象构建时，也非常复杂，有很多步骤需要处理时。</li>
+</ul>
+<h3 id="建造模式的本质"><a href="#建造模式的本质" class="headerlink" title="建造模式的本质"></a>建造模式的本质</h3><ul>
+<li>分离了对象子组件的单独构造(由Builder来负责)和装配(由Director负责)。 从而可以构造出复杂的对象。这个模式适用于：某个对象的构建过程复杂的情况下使用。 </li>
+</ul>
+<ul>
+<li>由于实现了构建和装配的解耦。不同的构建器，相同的装配，也可以做出不同的对象； 相同的构建器，不同的装配顺序也可以做出不同的对象。也就是实现了构建算法、装配算法的解耦，实现了更好的复用。</li>
+</ul>
+<h3 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line">AirShip实体类和各组件的实体类：</span><br><span class="line">public class AirShip &#123;</span><br><span class="line"></span><br><span class="line">    private OrbitalMoudle orbitalMoudle;//轨道舱</span><br><span class="line">    private Engine engine;//发动机</span><br><span class="line">    private EscapeTower escapeTower;//逃逸塔</span><br><span class="line"></span><br><span class="line">    public OrbitalMoudle getOrbitalMoudle() &#123;</span><br><span class="line">        return orbitalMoudle;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setOrbitalMoudle(OrbitalMoudle orbitalMoudle) &#123;</span><br><span class="line">        this.orbitalMoudle = orbitalMoudle;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Engine getEngine() &#123;</span><br><span class="line">        return engine;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setEngine(Engine engine) &#123;</span><br><span class="line">        this.engine = engine;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public EscapeTower getEscapeTower() &#123;</span><br><span class="line">        return escapeTower;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setEscapeTower(EscapeTower escapeTower) &#123;</span><br><span class="line">        this.escapeTower = escapeTower;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class OrbitalMoudle&#123;</span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    public OrbitalMoudle(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Engine&#123;</span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    public Engine(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">class   EscapeTower</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    private String  name;</span><br><span class="line"></span><br><span class="line">    public EscapeTower(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">构建接口：</span><br><span class="line">public interface AirShipBuilder &#123;</span><br><span class="line">    OrbitalMoudle createOrbitalMoudle();</span><br><span class="line">    Engine createEngine();</span><br><span class="line">    EscapeTower createEscapeTower();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">构建接口的实现类：</span><br><span class="line">public class HeroAirShipBuilder implements AirShipBuilder &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public OrbitalMoudle createOrbitalMoudle() &#123;</span><br><span class="line">        System.out.println(&quot;英雄牌轨道舱&quot;);</span><br><span class="line">        return new OrbitalMoudle(&quot;构建英雄牌轨道舱&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Engine createEngine() &#123;</span><br><span class="line">        System.out.println(&quot;英雄牌发动机&quot;);</span><br><span class="line">        return new Engine(&quot;构建英雄牌发动机&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public EscapeTower createEscapeTower() &#123;</span><br><span class="line">        System.out.println(&quot;英雄牌逃逸塔&quot;);</span><br><span class="line">        return new EscapeTower(&quot;构建英雄牌逃逸塔&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">装配接口：</span><br><span class="line">public interface AirShipDirector &#123;</span><br><span class="line"></span><br><span class="line">    AirShip directAirShip();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">装配接口的实现类：</span><br><span class="line"></span><br><span class="line">public class HeroAirShipDirector implements AirShipDirector &#123;</span><br><span class="line"></span><br><span class="line">    private AirShipBuilder builder;</span><br><span class="line"></span><br><span class="line">    public HeroAirShipDirector(AirShipBuilder builder) &#123;</span><br><span class="line">        this.builder = builder;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public AirShip directAirShip() &#123;</span><br><span class="line"></span><br><span class="line">        Engine e = builder.createEngine();</span><br><span class="line">        OrbitalMoudle o = builder.createOrbitalMoudle();</span><br><span class="line">        EscapeTower tower = builder.createEscapeTower();</span><br><span class="line"></span><br><span class="line">        AirShip airShip = new AirShip();</span><br><span class="line">        airShip.setEngine(e);</span><br><span class="line">        airShip.setOrbitalMoudle(o);</span><br><span class="line">        airShip.setEscapeTower(tower);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        return airShip;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">测试类：</span><br><span class="line"></span><br><span class="line">public class Client &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        AirShipDirector airShipDirector = new HeroAirShipDirector(new HeroAirShipBuilder());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        AirShip ship = airShipDirector.directAirShip();</span><br><span class="line"></span><br><span class="line">        System.out.println(ship.getEngine().getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="开发中应用场景："><a href="#开发中应用场景：" class="headerlink" title="开发中应用场景："></a>开发中应用场景：</h3><ul>
+<li>StringBuilder类的append方法 </li>
+<li>SQL中的PreparedStatement</li>
+<li>JDOM中，DomBuilder、SAXBuilder</li>
+</ul>
+<h2 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
+<li>通过new产生一个对象需要非常繁琐的数据准备或访问权限，则可以使用原型模式。</li>
+<li>就是java中的克隆技术，以某个对象为原型，复制出新的对象。显然，新的对象具备原型对象的特点 </li>
+<li>优势有：效率高(直接克隆，避免了重新执行构造过程步骤) 。 </li>
+<li>克隆类似于new，但是不同于new。new创建新的对象属性采用的是默认值。克隆出的对象的属性值完全和原型对象相同。并且克隆出的新对象改变不会影响原型对象。然后， 再修改克隆对象的值。</li>
+</ul>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><ul>
+<li>Cloneable接口和clone方法 </li>
+<li>Prototype模式中实现起来最困难的地方就是内存复制操作，所幸在Java中提供了 clone()方法替我们做了绝大部分事情。</li>
+</ul>
+<h3 id="浅克隆："><a href="#浅克隆：" class="headerlink" title="浅克隆："></a>浅克隆：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">public class Sheep implements Cloneable &#123;</span><br><span class="line"></span><br><span class="line">    private String name;</span><br><span class="line">    private Date date;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Date getDate() &#123;</span><br><span class="line">        return date;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setDate(Date date) &#123;</span><br><span class="line">        this.date = date;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected Object clone() throws CloneNotSupportedException &#123;</span><br><span class="line"></span><br><span class="line">        return super.clone();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Sheep(String name,Date date)</span><br><span class="line">    &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.date = date;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">测试类：</span><br><span class="line"></span><br><span class="line">public class Client</span><br><span class="line">&#123;</span><br><span class="line">    public static void main(String[] args) throws CloneNotSupportedException &#123;</span><br><span class="line"></span><br><span class="line">        Date date = new Date();</span><br><span class="line">        Sheep sheep = new Sheep(&quot;aaa&quot;,date);</span><br><span class="line"></span><br><span class="line">        date.setTime(121121354L);//这里修改了时间对象后，克隆后的对象的时间也会改变。</span><br><span class="line"></span><br><span class="line">        System.out.println(sheep.getName());</span><br><span class="line">        System.out.println(sheep.getDate());</span><br><span class="line"></span><br><span class="line">        Sheep sheep1 = (Sheep) sheep.clone();</span><br><span class="line">        sheep1.setName(&quot;bbb&quot;);</span><br><span class="line">        System.out.println(sheep1.getName());</span><br><span class="line">        System.out.println(sheep1.getDate());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>浅克隆存在的问题：<br>被复制的对象的所有变量都含有与原来的对象相同的值，而所有的对其他对象的引用都仍然指向原来的对象。对以上代码来说，sheep改变date对象的值以后，它的克隆对象sheep1也会被改变。</p>
+<h3 id="深克隆"><a href="#深克隆" class="headerlink" title="深克隆"></a>深克隆</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">public class Sheep1 implements Cloneable &#123;</span><br><span class="line"></span><br><span class="line">    private String name;</span><br><span class="line">    private Date date;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Date getDate() &#123;</span><br><span class="line">        return date;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setDate(Date date) &#123;</span><br><span class="line">        this.date = date;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected Object clone() throws CloneNotSupportedException &#123;</span><br><span class="line"></span><br><span class="line">        Object object = super.clone();</span><br><span class="line">        Sheep1 sheep = (Sheep1) object;</span><br><span class="line">        sheep.date = (Date) this.date.clone();//对date对象也进行拷贝</span><br><span class="line">        return object;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Sheep1(String name, Date date)</span><br><span class="line">    &#123;</span><br><span class="line">        this.name = name;</span><br><span class="line">        this.date = date;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Client1</span><br><span class="line">&#123;</span><br><span class="line">    public static void main(String[] args) throws CloneNotSupportedException &#123;</span><br><span class="line"></span><br><span class="line">        Date date = new Date();</span><br><span class="line">        Sheep1 sheep = new Sheep1(&quot;aaa&quot;,date);</span><br><span class="line"></span><br><span class="line">        Sheep1 sheep1 = (Sheep1) sheep.clone();//实现深复制。位置注意一下。</span><br><span class="line">        date.setTime(121121354L);</span><br><span class="line"></span><br><span class="line">        System.out.println(sheep.getName());</span><br><span class="line">        System.out.println(sheep.getDate());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        sheep1.setName(&quot;bbb&quot;);</span><br><span class="line">        System.out.println(sheep1.getName());</span><br><span class="line">        System.out.println(sheep1.getDate());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>深克隆：在克隆对象的时候对date属性也克隆。深克隆把引用的变量指向复制过的新对象，而不是原有的被引用的对象。 让已实现Clonable接口的类中的属性也实现Clonable接口 。基本数据类型和String能够自动实现深度克隆（值的复制）</p>
+<p>利用序列化实现深克隆：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">实体类就是浅复制中的实体类的基础上再实现Serializable接口。</span><br><span class="line"></span><br><span class="line">测试类：</span><br><span class="line">public class Client2</span><br><span class="line">&#123;</span><br><span class="line">    public static void main(String[] args) throws CloneNotSupportedException, IOException, ClassNotFoundException &#123;</span><br><span class="line"></span><br><span class="line">        Date date = new Date();</span><br><span class="line">        Sheep sheep = new Sheep(&quot;aaa&quot;,date);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(sheep.getName());</span><br><span class="line">        System.out.println(sheep.getDate());</span><br><span class="line"></span><br><span class="line">        //反序列化和序列化操作：</span><br><span class="line">        ByteArrayOutputStream baos = new ByteArrayOutputStream();</span><br><span class="line">        ObjectOutputStream oos = new ObjectOutputStream(baos);</span><br><span class="line">        oos.writeObject(sheep);</span><br><span class="line">        byte[] bytes = baos.toByteArray();</span><br><span class="line"></span><br><span class="line">        ByteArrayInputStream bins = new ByteArrayInputStream(bytes);</span><br><span class="line">        ObjectInputStream ois = new ObjectInputStream(bins);</span><br><span class="line">        Sheep sheep1 = (Sheep) ois.readObject();</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;———————————修改时间——————————&quot;);</span><br><span class="line">        date.setTime(121121354L);</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;第一只羊：&quot;);</span><br><span class="line">        System.out.println(sheep.getDate());</span><br><span class="line">        System.out.println(sheep.getName());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;克隆的羊：&quot;);</span><br><span class="line">        sheep1.setName(&quot;bbb&quot;);</span><br><span class="line">        System.out.println(sheep1.getName());</span><br><span class="line">        System.out.println(sheep1.getDate());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="应用场景-1"><a href="#应用场景-1" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
+<li>原型模式很少单独出现，一般是和工厂方法模式一起出现，通过clone 的方法创建一个对象，然后由工厂方法提供给调用者。</li>
+<li>spring中bean的创建实际就是两种：单例模式和原型模式。（当然，原型模式需要和工厂模式搭配起来）</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/29/spring笔记/" rel="next" title="spring笔记">
+                <i class="fa fa-chevron-left"></i> spring笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/rose.jpg" alt="诗酒趁年华">
+            
+              <p class="site-author-name" itemprop="name">诗酒趁年华</p>
+              <p class="site-description motion-element" itemprop="description">且将新火试新茶，诗酒趁年华</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sjcnhlm" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lm1318473126@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单例模式"><span class="nav-number">1.</span> <span class="nav-text">单例模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#核心作用"><span class="nav-number">1.0.1.</span> <span class="nav-text">核心作用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常见应用场景："><span class="nav-number">1.0.2.</span> <span class="nav-text">常见应用场景：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优点："><span class="nav-number">1.0.3.</span> <span class="nav-text">优点：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的单例模式实现方式"><span class="nav-number">1.1.</span> <span class="nav-text">常见的单例模式实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-饿汉式（线程安全，调用效率高。-但是，不能延时加载）："><span class="nav-number">1.1.1.</span> <span class="nav-text">1.饿汉式（线程安全，调用效率高。 但是，不能延时加载）：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-懒汉式（线程安全，调用效率不高。-但是，可以延时加载）"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 懒汉式（线程安全，调用效率不高。 但是，可以延时加载）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-双重检测锁式（由于JVM底层内部模型原因，偶尔会出问题。不建议使用）"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 双重检测锁式（由于JVM底层内部模型原因，偶尔会出问题。不建议使用）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-静态内部类式-线程安全，调用效率高。-但是，可以延时加载"><span class="nav-number">1.1.4.</span> <span class="nav-text">4. 静态内部类式(线程安全，调用效率高。 但是，可以延时加载)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-枚举单例-线程安全，调用效率高，不能延时加载-并且可以天然的防止反射和反序列-化漏洞！"><span class="nav-number">1.1.5.</span> <span class="nav-text">5.枚举单例(线程安全，调用效率高，不能延时加载.并且可以天然的防止反射和反序列 化漏洞！)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何选用"><span class="nav-number">1.1.6.</span> <span class="nav-text">如何选用?</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂模式"><span class="nav-number">2.</span> <span class="nav-text">工厂模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#作用："><span class="nav-number">2.0.1.</span> <span class="nav-text">作用：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#核心本质："><span class="nav-number">2.0.2.</span> <span class="nav-text">核心本质：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#应用场景"><span class="nav-number">2.0.3.</span> <span class="nav-text">应用场景</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类"><span class="nav-number">2.1.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简单工厂模式"><span class="nav-number">2.1.1.</span> <span class="nav-text">简单工厂模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工厂方法模式"><span class="nav-number">2.1.2.</span> <span class="nav-text">工厂方法模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#抽象工厂模式"><span class="nav-number">2.1.3.</span> <span class="nav-text">抽象工厂模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建造者模式"><span class="nav-number">3.</span> <span class="nav-text">建造者模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">3.1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建造模式的本质"><span class="nav-number">3.2.</span> <span class="nav-text">建造模式的本质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码演示"><span class="nav-number">3.3.</span> <span class="nav-text">代码演示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发中应用场景："><span class="nav-number">3.4.</span> <span class="nav-text">开发中应用场景：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原型模式"><span class="nav-number">4.</span> <span class="nav-text">原型模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">4.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-number">4.2.</span> <span class="nav-text">实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浅克隆："><span class="nav-number">4.3.</span> <span class="nav-text">浅克隆：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深克隆"><span class="nav-number">4.4.</span> <span class="nav-text">深克隆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用场景-1"><span class="nav-number">4.5.</span> <span class="nav-text">应用场景</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" align="center">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">诗酒趁年华</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">13.5k</span> 字
+  
+</div>
+<div class="powered-by" align="center">
+	<i class="fa fa-user-md" align="center"></i><span id="busuanzi_container_site_uv" text-align="center">
+	  本站访客数:<span id="busuanzi_value_site_uv"></span>次
+	</span>
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
