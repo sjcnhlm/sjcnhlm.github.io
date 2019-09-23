@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据库,Oracle,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="创建用户12345678910--创建用户：create user c##用户名 identified by 密码;    create user c##scott identified by root--赋予用户登录连接权限    grant connect to c##scott;--赋予用户资源操纵权限    grant resource to c##scott;  删除权限：  revok">
+<meta name="keywords" content="数据库,Oracle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle基础学习">
+<meta property="og:url" content="http://yoursite.com/2019/09/23/Oracle学习/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="创建用户12345678910--创建用户：create user c##用户名 identified by 密码;    create user c##scott identified by root--赋予用户登录连接权限    grant connect to c##scott;--赋予用户资源操纵权限    grant resource to c##scott;  删除权限：  revok">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-23T02:45:09.352Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle基础学习">
+<meta name="twitter:description" content="创建用户12345678910--创建用户：create user c##用户名 identified by 密码;    create user c##scott identified by root--赋予用户登录连接权限    grant connect to c##scott;--赋予用户资源操纵权限    grant resource to c##scott;  删除权限：  revok">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/23/Oracle学习/">
+
+
+
+
+
+  <title>Oracle基础学习 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/sjcnhlm"><img style="position:absolute ;top:0;right:0;border:0" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_left_darkblue_121621.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/23/Oracle学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="诗酒趁年华">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/rose.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Oracle基础学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-23T10:43:57+08:00">
+                2019-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.5k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  14 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">--创建用户：create user c##用户名 identified by 密码;</span><br><span class="line">    create user c##scott identified by root</span><br><span class="line">--赋予用户登录连接权限</span><br><span class="line">    grant connect to c##scott;</span><br><span class="line">--赋予用户资源操纵权限</span><br><span class="line">    grant resource to c##scott;</span><br><span class="line">  删除权限：</span><br><span class="line">  revoke dba from c##scott;</span><br><span class="line">  删除账户：</span><br><span class="line">  drop user 用户名；</span><br></pre></td></tr></table></figure>
+
+<h4 id="遇到的问题："><a href="#遇到的问题：" class="headerlink" title="遇到的问题："></a>遇到的问题：</h4><ol>
+<li>system无法使用sysdba身份登录。<ul>
+<li>解决：sys使用sysdba身份登录，然后执行：grant sysdba to system container=all;退出plsql重新登录即可。</li>
+</ul>
+</li>
+<li>创建用户时失败：用户名设置为以c##开头即可。<h3 id="sql语句："><a href="#sql语句：" class="headerlink" title="sql语句："></a>sql语句：</h3></li>
+</ol>
+<ul>
+<li><p>别名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select empno 员工编号,ename &quot;员工姓名&quot;,job as 工作,mgr as &quot;领导编号&quot; from emp;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>连接符：字段名 || ‘字符’ || 字段名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select empno ||&apos;的姓名是&apos;||ename 信息 from emp;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>去重:按照行进行去除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select distinct job from emp;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>排序：asc 升序，（默认） desc:降序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from emp order by empno desc;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>模糊查询：%表示任意字符；_表示一个字符。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from emp where ename like &apos;_A%&apos;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>escape会将一个字符转为转义字符。转义字符会将特殊字符转化为普通字符。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from emp where ename like &apos;%\_S&apos; escape &apos;\&apos;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="函数："><a href="#函数：" class="headerlink" title="函数："></a>函数：</h3><h4 id="单行函数："><a href="#单行函数：" class="headerlink" title="单行函数："></a>单行函数：</h4><ol>
+<li><p>字符函数：可以和字段混合使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- 1. 查询所有的员工信息，员工姓名小写。</span><br><span class="line">select empno,lower(ename) from emp;</span><br><span class="line">-- 2. 查询所有的员工信息，员工姓名首字母大写。</span><br><span class="line">select empno,initcap(ename) from emp;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>数值函数<br>伪表：真实存在的表，是为了方便进行数据的验证而临时存在的表，表名为dual.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select 1+2 from dual;</span><br><span class="line">select abs(-1),ceil(2.2),trunc(2.56,1) from dual;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>日期函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select months_between(&apos;19-4月-2028&apos;,&apos;19-4月-2029&apos;) from dual;</span><br><span class="line"></span><br><span class="line">select add_months(&apos;20-9月-2019&apos;,1) from dual;</span><br><span class="line"></span><br><span class="line">select next_day(&apos;20-9月-2019&apos;,&apos;星期五&apos;) from dual;</span><br><span class="line">select last_day(&apos;20-9月-2019&apos;) from dual;</span><br><span class="line"></span><br><span class="line">select round(to_date(&apos;20-6月-2019&apos;),&apos;YEAR&apos;) from dual;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>多行函数：对查询的数据进行统计。<br> 注意：1.不能和字段直接混合使用，除非分组；</p>
+<pre><code>2. 不能和单行函数混合使用，除非分组。</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select max(sal) from emp;</span><br><span class="line">  select avg(sal) from emp;</span><br><span class="line">  --查询表的记录数</span><br><span class="line">  select count(*) from emp;</span><br><span class="line">  --查询字段的值得数量，null会自动过滤。</span><br><span class="line">  select count(comm) from emp;</span><br><span class="line">  -- 查询有多少种工作。(去重)</span><br><span class="line">  select count(distinct job) from emp;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>转换函数：</p>
+<ul>
+<li>to_number():字符转化为数字；</li>
+<li>to_char(): 将数值或日期转化为字符；</li>
+<li>to_date(要转换的字符，‘日期格式’):将字符转化为日期；</li>
+<li>数值和字符之间的转化可以隐型转化。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> select to_number(&apos;15&apos;) from dual;</span><br><span class="line"> select to_char(23) from dual;         </span><br><span class="line">--指定显示格式：9表示占位分组，L表示人民币符号，$表示美元符号</span><br><span class="line">select to_char(123456,&apos;999,999,999&apos;) from dual;</span><br><span class="line">select to_char(123456,&apos;$999,999,999&apos;) from dual;</span><br><span class="line">select to_char(123456,&apos;L999,999,999&apos;) from dual;</span><br><span class="line"></span><br><span class="line">select * from emp where hiredate &gt; to_date(&apos;1982-01-01&apos;,&apos;yyyy-mm-dd&apos;);</span><br><span class="line"></span><br><span class="line">select to_char(hiredate,&apos;yyyy/mm/dd&apos;) from emp;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>其他函数：</p>
+<ul>
+<li>nvl(字段名，新的值)：如果字段名不为空，则返回该字段的值；否则返回新的值；</li>
+<li>nvl2(字段名，处理1，处理2)：如果字段名不为空，则执行处理1，否则执行处理2；</li>
+<li>decode(字段名，值1，处理1，值2，处理2，…,公共处理):如果字段和值相同的话，则执行对应的处理。如果都没有则执行公共处理。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select ename,sal+nvl(comm,0) from emp;</span><br><span class="line">select ename,nvl2(comm,sal+comm,sal) from emp;</span><br><span class="line"></span><br><span class="line">select ename,decode(job,&apos;MANAGER&apos;,&apos;经理&apos;,&apos;PRESIDENT&apos;,&apos;董事长&apos;)from emp;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="分组查询-group-by：select-from之间只允许出现分组字段名和多行函数。"><a href="#分组查询-group-by：select-from之间只允许出现分组字段名和多行函数。" class="headerlink" title="分组查询 group by：select from之间只允许出现分组字段名和多行函数。"></a>分组查询 group by：select from之间只允许出现分组字段名和多行函数。</h3><pre><code>--多个分组字段用逗号隔开。
+--where字句中不能出现多行函数。</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  select deptno,max(sal) from emp group by deptno；</span><br><span class="line">  --查询不同工作的员工数：</span><br><span class="line">  select job,count(*) from emp group by job;</span><br><span class="line">  </span><br><span class="line">  --查询不同部门的不同工作岗位的人数</span><br><span class="line">  select job,deptno,count(*) from emp group by deptno,job order by deptno;</span><br><span class="line">``` </span><br><span class="line">### 分组筛选having：必须和group by 结合使用不能单独使用，允许使用多行函数。</span><br><span class="line">    --where和having的比较：</span><br><span class="line">    --where字句不允许出现多行函数，having允许</span><br><span class="line">    -- where子句和having都可以使用普通字段进行筛选，但是where的效率高于having</span><br><span class="line">    --where执行顺序：from--&gt;where--&gt;group by--&gt;select--&gt;order by</span><br><span class="line">    --having执行顺序：from--&gt;group by--&gt;select--&gt;having--&gt;order by</span><br><span class="line">    --结论：在分组语句中，使用where进行字段级别的筛选，使用having进行多行函数的筛选。</span><br><span class="line">    --查询不同部门不同工作岗位的并且人数大于1的信息：</span><br><span class="line">    select job,deptno from emp group by deptno,job having count(*)&gt;1;</span><br><span class="line">  </span><br><span class="line">### 数据库的增删改和备份：</span><br><span class="line">sql语句执行完毕后，不会立马对库写入。还需要手动进行提交，出现问题的话还可以回滚。数据的备份：只会备份表结构和数据，约束不会备份。</span><br></pre></td></tr></table></figure>
+
+<p>   –表级别的备份：<br>   create table deptBak as select * from dept;–全部备份<br>   select * from deptBak;</p>
+<p>   delete from deptBak;<br>   create table deptBak2 as select deptno ,dname from dept;–部分备份</p>
+<p>   insert into deptBak select * from dept;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">### 多表联合查询：</span><br><span class="line">1. sql92方式：</span><br></pre></td></tr></table></figure>
+
+<p> –笛卡尔积：将多个表的数据一一对应,结果的数量为各个表的数量的乘积。<br>    select * from emp,dept;<br>– 等值连接<br>select * from emp,dept where emp.deptno = dept.deptno;<br>select * from emp e,dept d where e.deptno = d.deptno –使用别名.<br>–不等值连接<br>select * from emp e,salgrade s where e.sal &lt;=s.hisal and e.sal &gt;= s.losal;<br>–自连接<br>select * from emp e1,emp e2 where e1.mgr = e2.mgr;<br>–外连接<br>        –左外连接：查询员工信息和没有部门的员工、<br>        select * from emp e ,dept d where e.deptno=d.deptno(+)<br>        –右外连接：查询员工信息和没有员工的部门。<br>        select * from emp e ,dept d where e.deptno(+)=d.deptno</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">2. sql99方式：</span><br><span class="line"></span><br><span class="line">**特点**</span><br><span class="line">  1. 依然可以给表添加别名</span><br><span class="line">  2. 如果使用using或者on关键字对结果进行筛选，必须使用ininer join 对表连接，其中inner可以省略。</span><br><span class="line">  3. 外连接的关键字outer可以省略。</span><br><span class="line">  4. 依然可以继续使用分组,having等。</span><br></pre></td></tr></table></figure>
+
+<p>–笛卡尔积:使用cross join关键字。<br>  select * from emp cross join dept;  </p>
+<p>  –筛选：<br>    –自然连接：使用关键字natural join:底层先笛卡尔积，然后按照同名同值字段进行等值筛选。<br>        –问题1：如果只想按照部分字段进行筛选怎么办？<br>        –问题2：如果想按照字段名不同，但是值相同进行等值筛选怎么办？<br>        select * from emp natural join dept;<br>          –解决1：使用using关键字：<br>          –作用：指明的字段必须是两表的同名同值字段，会以该字段对联合查询进行等值查询。<br>          select * from emp inner join dept using(deptno);<br>          –解决：使用on关键字：<br>          select * from emp inner join dept on emp.deptno=dept.deptno;<br>    –外连接：<br>          –左外连接：<br>          select * from emp left outer join dept on emp.deptno=dept.deptno;<br>        –右外连接：<br>          select * from emp right outer join  dept on emp.deptno=dept.deptno;<br>        –外连接：<br>          select * from emp full outer join dept on emp.deptno=dept.deptno;<br>    – 自连接：<br>          select e1.*,e2.ename from emp e1 inner join emp e2 on e1.mgr = e2.empno;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">3. 三表查询：</span><br><span class="line">+ sql92实现三表联合查询:</span><br><span class="line">    1. 特点：容易书写，难于阅读。</span><br><span class="line">    2. 缺点：语句结构不清晰。</span><br><span class="line">    3. 举例：</span><br></pre></td></tr></table></figure>
+
+<pre><code>查询员工信息和部门名称及所在城市：
+select e.*,d.dname,c.cid from emp e,dept d,city c where e.deptno = d.deptno and d.loc = c.cid;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line">+ sql99实现三表联合查询:</span><br><span class="line">    1. 特点：难于书写，容易阅读。</span><br><span class="line">    2. 举例</span><br></pre></td></tr></table></figure></code></pre><p>  select e.*,d.dname from emp e inner join dept d on e.deptno = d.deptno inner join city c on d.loc=c.cid;<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">### 子查询：</span><br><span class="line">1. 时机：当查询的时机不明确时，考虑使用子查询。</span><br><span class="line">  </span><br><span class="line">2. 单行子查询：where语句中出现查询语句。</span><br><span class="line"></span><br><span class="line">  select * from emp where sal &gt; (select sal from emp where ename=&apos;CLARK&apos;);</span><br><span class="line">   </span><br><span class="line">3. 多行子查询：</span><br><span class="line">    1. 关键字1：any;</span><br><span class="line">    2. 关键字2：all;</span><br><span class="line">    3. 关键字3：in,not in;</span><br></pre></td></tr></table></figure></p>
+<p>–查询工资高于任意一个CLERK的所有员工的信息。<br>   select * from emp where sal &gt; (select min(sal) from emp where job=’CLERK’);<br>   select * from emp where sal &gt; any(select sal from emp where job =’CLERK’);<br>   –查询工资高于所有CLERK的所有员工的信息。<br>   select * from emp where sal &gt; (select max(sal) from emp where job=’CLERK’);<br>   select * from emp where sal &gt; all(select sal from emp where job =’CLERK’);<br>   –查询部门20中和部门10中工作相同的员工信息：<br>   select * from emp where job in(select job from emp where deptno = 10) and deptno=20;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 账户管理学习</span><br><span class="line">1. oracle自带账户：</span><br><span class="line">    + system：管理账户，具备大多是Oracle的管理权限， 主要用来管理普通账户和Oracle的数据；使用人：Oracle数据维护工作人员</span><br><span class="line">    + sys：超级管理员账户，具备system的所有权限，又具备其他的权限。使用人：oracle工程师。</span><br><span class="line">2. 创建账户：</span><br><span class="line">    + 使用system账户，dba身份，登录Oracle系统。</span><br><span class="line">    + 创建用户并赋予权限。</span><br><span class="line">3. 删除账户：</span><br><span class="line">    drop user 用户名；</span><br><span class="line">### 二维表的管理</span><br><span class="line">1. 数据类型：</span><br><span class="line">    1. number：number(a,b):总长度为a，小数部分长度为b，小数部分可以不写。</span><br><span class="line">    2. varchar2(len):len表示字符的最大长度。实际存储长度是根据字符大小来分配的；特点：动态分配存储空间，节省空间</span><br><span class="line">    3. char(len):不管字符长度是多大，直接开辟len大小的空间。特点：存储效率高于varchar2.</span><br><span class="line">    4. date:日期</span><br><span class="line">2. 约束：</span><br><span class="line">    1. 主键：</span><br><span class="line">        + 直接在字段后加primary key;</span><br><span class="line">        + 在创建表的最后面使用contraints pk_表名_字段名 primary key(字段名)</span><br><span class="line">        + 创建表之后，使用 alter table 表名 add contraints pk_表名_字段名 primary key(字段名)</span><br><span class="line">        + 删除主键：alter table 表名 drop 约束名。</span><br><span class="line">    2. 非空约束：</span><br><span class="line">        + 直接在表的字段后：not null</span><br><span class="line">        + 在创建表的最后面使用contraints ck_表名_字段名 check(字段名 is not null)</span><br><span class="line">        + 创建表之后，使用 alter table 表名 add contraints ck_表名_字段名 check(字段名 is not null)</span><br><span class="line">        + 删除非空约束：alter table 表名 drop 约束名。</span><br><span class="line">    3.  检查约束：</span><br><span class="line">        + 直接在表的字段后：check(条件)</span><br><span class="line">        + 在创建表的最后面使用contraints ck_表名_字段名 check(条件)</span><br><span class="line">        + 创建表之后，使用 alter table 表名 add contraintscontraints ck_表名_字段名 check(条件)</span><br><span class="line">        + 删除非空约束：alter table 表名 drop 约束名。</span><br><span class="line">    4.  唯一约束：</span><br><span class="line">        + 直接在表的字段后：unique;</span><br><span class="line">        + 在创建表的最后面使用contraints un_表名_字段名 unique(字段名)</span><br><span class="line">        + 创建表之后，使用 alter table 表名 add contraints un_表名_字段名 unique(字段名) </span><br><span class="line">        + 删除非空约束：alter table 表名 drop 约束名。   </span><br><span class="line">    5. 外键：</span><br><span class="line">      + 在字表中的字段后直接添加：references 父表名(字段名) 。例如cno number(10)  references calzz(cno)</span><br><span class="line">      + 在创建表的最后面使用contraints fk_表名_字段名 foreign key(字段名) references 父表名(字段名)</span><br><span class="line">      + 创建表之后，使用 alter table 表名 add contraints fk_表名_字段名 foreign key(字段名) references 父表名(字段名)</span><br><span class="line">      + 删除非空约束：alter table 表名 drop 约束名。</span><br><span class="line">      + 外键的选取： 一般选取父表的主键当做字表的外键。 </span><br><span class="line">      + 缺点：无法直接删除父表数据，除非使用级联删除；</span><br><span class="line">      + 级联删除：在添加外键约束时，使用关键字on delete cascade;</span><br><span class="line">        1. 使用：删除父表数据时，自动删除字表相关数据。</span><br><span class="line">        2. 缺点；无法保留字表的历史数据。</span><br><span class="line">        3. 使用关键字on delete set null:删除父表数据时会将字表中依赖的字段设置为null;</span><br><span class="line">        4. 注意：字表依赖字段不能添加非空约束。</span><br><span class="line"></span><br><span class="line">3. 二维表的维护</span><br></pre></td></tr></table></figure>
+
+<p>  –添加新的字段<br>    alter table student add phone number(11)</p>
+<pre><code>select * from student;</code></pre><p>   –修改原有字段<br>    –修改字段类型：<br>         alter table student modify phone varchar(11)<br>    –修改字段名：<br>         alter table student rename column phone to sphone;<br>    –删除字段：<br>         alter table student drop column sphone;<br>   –修改表名:<br>         rename student to student2;<br>        rename student2 to student;      </p>
+<p>   –删除表：drop table 表名;  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">### 序列</span><br><span class="line">1. 创建默认序列：--create sequence 序列名</span><br><span class="line">  + 特点1：默认开始是没有值的，即指在了没有值的位置。</span><br><span class="line">  + 特点2：序列名.nextval每次执行都会自增一次，默认步长为1；</span><br><span class="line">  + 特点3：序列名.currval查看当前序列的值；</span><br><span class="line">  + 作用：序列名.nextval作为主键使用，动态获取主键的值，避免了主键冲突。</span><br><span class="line">2. 创建自定义序列：</span><br></pre></td></tr></table></figure>
+
+<p>create sequence aa<br>start with 5 –设置开始位置<br>increment by 2 –设置步长<br>max 1000 –序列的最大值<br>cache 10 –设置缓存。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">3. 删除序列： drop sequence 序列名;</span><br><span class="line"></span><br><span class="line">### 索引</span><br><span class="line">1. 作用：提高查询效率；</span><br><span class="line">2. 特点：显式的创建，隐式地执行。</span><br><span class="line">3. 注意：oracle会自动地给表的主键添加索引。</span><br><span class="line">4. 创建索引：</span><br><span class="line">    create index index_student_tname on teacher(tname);</span><br><span class="line">5. 删除索引：</span><br><span class="line">    drop index index_student_tname; </span><br><span class="line"></span><br><span class="line">### 视图</span><br><span class="line">1. 特点1：保护真实表，隐藏重要字段，从而保护数据。</span><br><span class="line">2. 特点2：  在视图中的操作会映射到真实的表中。</span><br><span class="line">3. 特点3：可以手动开启只读权限，使用关键字 with read only.</span><br><span class="line">4. 注意：视图创建必须具有dba权限。</span><br></pre></td></tr></table></figure>
+
+<p>create view stu as select sno,sname,sage from student (with read only);  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">### 分页查询</span><br><span class="line">1. rownum关键字：oracle对外提供的自动给查询结果编号的关键字，与每行的数据没有关系。</span><br><span class="line">2. 注意：rownum关键字只能做&lt; &lt;= 的判断，不能做&gt;的判断。</span><br><span class="line">3. 规律总结：每页显示n条数据，第m页数据。</span><br></pre></td></tr></table></figure>
+
+<p>select rownum,t.* from (select rownum r,e.* from 表名 别名 where rownum &lt;=m<em>n) t where r&gt;m</em>n-n;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">代码示例：</span><br></pre></td></tr></table></figure>
+
+<p>–每页显示五行数据，第一页数据：<br>select rownum r,e.* from emp e where rownum &lt;=5<br>select rownum ,t.* from (select rownum r,e.* from emp e where rownum &lt;=5) t where r&gt;0;</p>
+<p>–每页显示五行数据，第二页数据：<br>select rownum,t.* from (select rownum r,e.* from emp e where rownum &lt;=10) t where r&gt;5;</p>
+<p>–每页显示五行数据，第三页数据：<br>select rownum,t.* from (select rownum r,e.* from emp e where rownum &lt;=15) t where r&gt;10;<br>```</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+          
+            <a href="/tags/Oracle/" rel="tag"># Oracle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/03/java23种设计模式-结构型模式/" rel="next" title="java23种设计模式之结构型模式">
+                <i class="fa fa-chevron-left"></i> java23种设计模式之结构型模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/rose.jpg" alt="诗酒趁年华">
+            
+              <p class="site-author-name" itemprop="name">诗酒趁年华</p>
+              <p class="site-description motion-element" itemprop="description">且将新火试新茶，诗酒趁年华</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/sjcnhlm" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:lm1318473126@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建用户"><span class="nav-number">1.</span> <span class="nav-text">创建用户</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#遇到的问题："><span class="nav-number">1.1.</span> <span class="nav-text">遇到的问题：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql语句："><span class="nav-number">2.</span> <span class="nav-text">sql语句：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数："><span class="nav-number">3.</span> <span class="nav-text">函数：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单行函数："><span class="nav-number">3.1.</span> <span class="nav-text">单行函数：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分组查询-group-by：select-from之间只允许出现分组字段名和多行函数。"><span class="nav-number">4.</span> <span class="nav-text">分组查询 group by：select from之间只允许出现分组字段名和多行函数。</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright" align="center">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">诗酒趁年华</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">25.7k</span> 字
+  
+</div>
+<div class="powered-by" align="center">
+	<i class="fa fa-user-md" align="center"></i><span id="busuanzi_container_site_uv" text-align="center">
+	  本站访客数:<span id="busuanzi_value_site_uv"></span>次
+	</span>
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+-->
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_lines.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
